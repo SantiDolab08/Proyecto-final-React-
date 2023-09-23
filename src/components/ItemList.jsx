@@ -9,15 +9,15 @@ const ItemList = ({ items }) => {
     
       <div >
         <ul className="row">
-          {items.map((item) =>(
-            <li className="col-4" key={item.id}>
+          {items.map((product) =>(
+            <li className="col-4" key={product.id}>
                 <div className="card text-center mb-3" >
-                    <Link  to={`/item/${item.id}`}>
+                    <Link  to={`/item/${product.id}`}>
                         {/* <img src={item.image} className="card-img-top" alt="" /> */}
                         <div className="card-body">
-                            <h2 className="card-title">{item.name}</h2>
-                            <p className="card-text">${item.price}</p>
-                            <p className="card-text"> {item.category} </p>
+                            <h2 className="card-title">{product.name}</h2>
+                            <p className="card-text">${product.price}</p>
+                            <p className="card-text"> {product.categoryId} </p>
                         </div>
                     </Link>
                 </div>

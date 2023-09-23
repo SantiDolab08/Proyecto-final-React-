@@ -1,5 +1,5 @@
 import { useState } from "react";
-import QuantityCount from "./quantityCount";
+
 
 
 const QuantityCountContainer = () => {
@@ -13,14 +13,15 @@ const QuantityCountContainer = () => {
         }
     };
   return (
-  <QuantityCount
-    quantity = { quantity }
-    addQuantity = { addQuantity }
-    removeQuantity = { removeQuantity }
-  />
+    <div>
+    <h2> {quantity}</h2>
+    <button onClick={removeQuantity}> - </button>
+    <button onClick={addQuantity}> + </button>
+  </div>
+);
+};
+  
 
-  )
-}
    
 
 export default QuantityCountContainer
