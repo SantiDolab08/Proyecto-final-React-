@@ -19,6 +19,7 @@ const CartProvider = ({ children }) => {
           return {
             ...item,
             quantity: item.quantity + quantity,
+            
           };
         }
 
@@ -28,6 +29,7 @@ const CartProvider = ({ children }) => {
     } else {
       setCart([...cart, { ...product, quantity }]);
     }
+    
   };
 
   const removeItem = (id) => {
