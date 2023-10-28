@@ -1,41 +1,61 @@
-const products =[
-    //Tejidos
-    {id: "1",name:"Alfombra Roma", price: 5000, categoryId: "tejido" , img: "alfombra-roma.jpg"},
-    {id: "2", name:"Alfombra Paris", price: 5500, categoryId: "tejido" , img: "alfombra-paris.jpg"},
-    {id: "3", name:"Manta Venecia", price: 6000, categoryId: "tejido", img: "manta-venecia.jpg" },
-    //Ceramica
-    {id: "4", name:"Florero Dona", price: 9200, categoryId: "ceramica", img: "florero-dona-ceramica.jpg"},
-    {id: "5", name:"Jaron Asimetrico", price: 9600, categoryId: "ceramica", img: "jarron-asimetrico.jpg"},
-    {id: "6", name:"Maceta Moai", price: 9400, categoryId: "ceramica", img: "maceta-moai.jpg"},
-    // 3D
-    {id: "7", name:"Florero Barril", price: 4000, categoryId: "3d", img: "florero-barril.jpg"},
-    {id: "8", name:"Estatuilla Moai", price: 4500, categoryId: "3d", img: "estatuilla-moai.jpg"},
-    {id: "9" , name:"Estatuilla Atlas", price: 6500, categoryId: "3d", img: "estatua-atlas.jpg"}
-] 
+import {getFirestore,
+    query,
+    doc,
+    getDoc,
+    collection,
+    getDocs,
+    where,
+    addDoc} from "firebase/firestore"
+
+
 
 
 export const getProduct = (id) => {
     return new Promise((resolve, reject) => {
+        const db = getFirestore();
         
-            const product = products.find(p => p.id === id) 
+        const itemDoc = doc(db, 'Products', id);
 
-            if (product){
-                resolve(product)
-            }else{
-                reject("Producto no existente")
+        getDoc(itemDoc)
+        .then((doc)=> {
+            if (doc.exists()) {
+                resolve({id: doc.id, ...doc.data()});
+            }else {
+                resolve(null);
             }
-        },)
-};
+        }).catch((error)=> {
+            reject(error);
+        })
+})};
 
 
 export const getProducts = (categoryId) => {
     return new Promise((resolve, reject) =>{
-        
-            const filterProductCategory = categoryId ? products.filter(product => product.categoryId === categoryId)
-            : products;
+        console.log('gtprod',categoryId)
+        const db = getFirestore();
 
-            resolve(filterProductCategory);
-        },)
+        const productsCollection = collection(db, 'Products')
+        console.log('collections', productsCollection);
+
+
+        let q = query(productsCollection)
+
+        if (categoryId){
+            q = query(productsCollection, where('categoryId','==',categoryId));
+            console.log('if === ', q.categoryId);
+        }
+        
+
+        getDocs(q)
+        .then((snapshot) => {
+            const products = snapshot.docs.map((doc) => {
+                console.log('map', q.categoryId)
+                return {id: doc.id, ...doc.data()};
+            });
+            resolve(products)
+        })
+    
+    },)
     ;
 };
 
@@ -96,11 +116,10 @@ export const getProducts = (categoryId) => {
 
 
 export const createOrder = (orden) => {
-    console.log("Orden creada")
-  //const db = getFirestore();
+    
+  const db = getFirestore();
 
-  //const ordersCollection = collection(db, "orders");
+  const ordersCollection = collection(db, "Orders");
 
- // return addDoc(ordersCollection, orden);
+ return addDoc(ordersCollection, orden);
 };
-  

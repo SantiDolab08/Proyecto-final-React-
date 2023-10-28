@@ -38,20 +38,14 @@ const Checkout = () => {
       items: mapCartToOrderItems(cart),
       total,
       date: serverTimestamp(),
-      id: Math.floor(Math.random() * 10000),
+      // id: Math.floor(Math.random() * 10000),
     };
 
     console.log(order);
-    alert(`Tu orden fue exitosa
-    datos 
-    Nombre: ${order.buyer.name}
-    Email: ${order.buyer.email}
-    Telefono: ${order.buyer.phone} 
-    Id compra ${order.id}`);
-    // createOrder(order).then((docRef) => {
-    //   setOrderId(docRef.id);
+    createOrder(order).then((docRef) => {
+      setOrderId(docRef.id);
     clear();
-    // });s
+    });
 
     setFormData({
       name: "",
