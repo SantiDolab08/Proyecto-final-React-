@@ -38,7 +38,6 @@ const Checkout = () => {
       items: mapCartToOrderItems(cart),
       total,
       date: serverTimestamp(),
-      // id: Math.floor(Math.random() * 10000),
     };
 
     console.log(order);
